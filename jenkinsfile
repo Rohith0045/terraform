@@ -1,0 +1,21 @@
+
+pipeline{
+    agent any
+    stages {
+        stage('source code') {
+            steps {
+                echo 'Cloning...'
+                   git branch: 'main', url: 'https://github.com/Rohith0045/terraform.git'
+
+            }
+        }
+        stage('terraform') {
+            steps {
+                echo 'Deploying...'
+                sh 'terraform init'
+                sh 'terraform plan -var="ami_id=ami-019715e0d74f695be" '
+                sh 'terraform apply -var="ami_id=ami-019715e0d74f695be" -auto-approve'
+            }
+        }
+    }
+}
